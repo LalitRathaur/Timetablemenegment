@@ -1,3 +1,14 @@
 from django.contrib import admin
+from .models import User, Student, Faculty, Course, Enrollment
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-# Register your models here.
+class UserAdmin(BaseUserAdmin):
+    fieldsets = BaseUserAdmin.fieldsets + (
+        (None, {'fields': ('is_student', 'is_faculty')}),
+    )
+
+admin.site.register(User, UserAdmin)
+admin.site.register(Student)
+admin.site.register(Faculty)
+admin.site.register(Course)
+admin.site.register(Enrollment)

@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-51*y&%%!!()0fipj-4z+5n9k#)q!8e&(vrkjhq5sp35xpkb5y(
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+AUTH_USER_MODEL = 'schedule.User'
 
 # Application definition
 
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'schedule',
 ]
 
 MIDDLEWARE = [
@@ -111,7 +112,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+#AUTH_USER_MODEL = 'schedule.User'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
