@@ -25,3 +25,5 @@ staticfiles/
 # Python virtualenv
 venv/
 env/
+.venv/
+**/.venv/
