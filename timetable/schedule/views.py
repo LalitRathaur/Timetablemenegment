@@ -11,7 +11,7 @@ def register_user(request):
             user = form.save()
             # Student/Faculty profile auto-created by signal
             login(request, user)
-            return redirect('home')  # or any page
+            return HttpResponse("user regiter succes fully") # or any page
     else:
         form = UserRegisterForm()
     return render(request, 'register.html', {'form': form})

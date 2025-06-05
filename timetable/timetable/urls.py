@@ -16,7 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from schedule import views
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('register/', views.register_user, name='register'),
+    path('enroll/', views.create_enrollment, name='enroll'),
+    path('vote/<int:change_id>/', views.cast_vote, name='vote'),
 ]
