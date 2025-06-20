@@ -10,9 +10,20 @@ class User(AbstractUser):
 # Student profile
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile')
-    roll_number = models.CharField(max_length=20, unique=True)
+    roll_number = models.CharField(max_length=20, unique=True,blank=True)
     branch = models.CharField(max_length=100)
-
+    def save(self, *args, **kwargs):
+        if not self.roll_number:
+            last_student = Student.objects.exclude(roll_number='').order_by('-id').first()
+            if last_student and last_student.roll_number.startswith("STU"):
+                try:
+                    last_number = int(last_student.roll_number.replace("STU", ""))
+                except ValueError:
+                    last_number = 0
+            else:
+                last_number = 0
+            self.roll_number = f"STU{last_number + 1:04d}"
+        super().save(*args, **kwargs)
     def __str__(self):
         return f"{self.user.get_full_name()} ({self.roll_number})"
 

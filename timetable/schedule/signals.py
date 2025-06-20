@@ -2,13 +2,12 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import User, Student, Faculty, TimetableVote, TimetableCurrent, TimetableChange, Enrollment
 
-# 1. Auto-create Student/Faculty Profile
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        if instance.is_student:
+        if instance.is_student and not hasattr(instance, 'student'):
             Student.objects.create(user=instance)
-        elif instance.is_faculty:
+        elif instance.is_faculty and not hasattr(instance, 'faculty'):
             Faculty.objects.create(user=instance)
 
 # 2. Auto-apply Timetable Change if approved

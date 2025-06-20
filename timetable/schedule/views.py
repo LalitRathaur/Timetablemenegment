@@ -2,21 +2,22 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from .forms import UserRegisterForm, EnrollmentForm, VoteForm
 from .models import User, Student, Faculty, Enrollment, TimetableChange, TimetableVote
-
+from django.http import HttpResponse
 # Register User and create profile
 def register_user(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            # Student/Faculty profile auto-created by signal
+            user = form.save(commit=False)
+            user.is_student = form.cleaned_data.get('is_student')
+            user.is_faculty = form.cleaned_data.get('is_faculty')
+            user.save()  # this will trigger signal
             login(request, user)
-            return HttpResponse("user regiter succes fully") # or any page
+            return HttpResponse("User registered successfully.")
     else:
         form = UserRegisterForm()
     return render(request, 'register.html', {'form': form})
 
-# Create Enrollment
 def create_enrollment(request):
     if request.method == 'POST':
         form = EnrollmentForm(request.POST)
